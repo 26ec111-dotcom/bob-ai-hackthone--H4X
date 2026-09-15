@@ -6,10 +6,10 @@
 
 Before you begin, ensure you have the following installed:
 
-- [ ] [e.g., Python 3.11+]
-- [ ] [e.g., Node.js 18+]
-- [ ] [e.g., Docker Desktop]
-- [ ] [e.g., An IBM Cloud account with watsonx.ai access]
+- [ ] Python 3.11+
+- [ ] Node.js 18+
+- [ ] Docker Desktop
+- [ ] An IBM Cloud account with watsonx.ai access
 
 ## Environment Variables
 
@@ -17,63 +17,35 @@ Copy `.env.example` to `.env` and fill in the values:
 
 ```bash
 cp .env.example .env
-```
-
-| Variable | Description | Required |
-|---|---|---|
-| `WATSONX_API_KEY` | Your IBM watsonx.ai API key | Yes |
-| `WATSONX_PROJECT_ID` | Your watsonx.ai project ID | Yes |
-| `DATABASE_URL` | PostgreSQL connection string | Yes |
-| `SLACK_WEBHOOK_URL` | Slack webhook for alerts | No |
-
-## Installation
-
-```bash
 # 1. Clone the repository
-git clone https://github.com/[your-org]/[your-repo].git
-cd [your-repo]
+git clone https://github.com/26ec111-dotcom/bob-ai-hackthone--H4X.git
+cd bob-ai-hackthone--H4X
 
 # 2. Install backend dependencies
-[your command — e.g.: pip install -r requirements.txt]
+pip install -r requirements.txt
 
-# 3. Install frontend dependencies (if applicable)
-[your command — e.g.: cd frontend && npm install]
+# 3. Install frontend dependencies
+cd frontend
+npm install
+cd ..
 
-# 4. Set up the database (if applicable)
-[your command — e.g.: python manage.py migrate]
-```
-
-## Running the Application
-
-```bash
+# 4. Set up the database
+docker compose up -d db
 # Start the backend
-[your command — e.g.: uvicorn app.main:app --reload]
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 
-# Start the frontend (in a separate terminal, if applicable)
-[your command — e.g.: cd frontend && npm run dev]
-```
+# Start the frontend in a separate terminal
+cd frontend
+npm run dev
 
-The application will be available at: `http://localhost:[PORT]`
+pytest tests/ -v
 
-## Running Tests
+# Start the database
+docker compose up -d db
 
-```bash
-[your test command — e.g.: pytest tests/ -v]
-```
+# Start the backend
+uvicorn app.main:app --reload --port 8000
 
-## Quick Demo (Optional)
-
-If you have a demo script or sample data to showcase the project quickly:
-
-```bash
-[e.g.: python demo/seed_demo_data.py]
-[e.g.: open http://localhost:8000/demo]
-```
-
-## Troubleshooting
-
-| Issue | Solution |
-|---|---|
-| [e.g., `ModuleNotFoundError`] | [e.g., Run `pip install -r requirements.txt` again] |
-| [e.g., Database connection refused] | [e.g., Ensure PostgreSQL is running: `docker compose up db`] |
-| [e.g., watsonx.ai 401 error] | [e.g., Check `WATSONX_API_KEY` in your `.env` file] |
+# Start the frontend in a separate terminal
+cd frontend
+npm run dev
