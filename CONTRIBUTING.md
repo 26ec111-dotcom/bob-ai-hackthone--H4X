@@ -1,15 +1,8 @@
 bob-ai-hackathon-H4X/
 │
-├── .github/
-│   └── workflows/
-│       └── validate.yml
-│
-├── src/
-│   ├── frontend/
-│   ├── backend/
-│   ├── ai/
-│   ├── automation/
-│   └── sensors/
+├── submission.yaml
+├── README.md
+├── .gitignore
 │
 ├── docs/
 │   ├── problem-statement.md
@@ -17,18 +10,18 @@ bob-ai-hackathon-H4X/
 │   ├── architecture.md
 │   └── setup-guide.md
 │
+├── src/
+│   ├── .env.example
+│   ├── backend/
+│   ├── ai/
+│   ├── automation/
+│   ├── sensors/
+│   └── frontend/
+│
 ├── demo/
-│   ├── screenshots/
-│   │   ├── 01-power-monitoring.png
-│   │   ├── 02-smart-occupancy.png
-│   │   ├── 03-power-guard.png
-│   │   └── 04-environment-monitoring.png
 │   ├── demo-video-link.txt
-│   └── live-demo-url.txt
+│   ├── live-demo-url.txt
+│   └── screenshots/
 │
-├── presentation/
-│   └── slides.pdf
-│
-├── submission.yaml
-├── README.md
-└── .gitignore
+└── presentation/
+    └── slides.pdf
