@@ -10,7 +10,7 @@
 |---|---|
 | **Team Name** | [H4X] |
 | **Track** | [AI / DevOps / Sustainability / Open] |
-| **Team Lead** | [SHUBH] — [email@ibm.com] |
+| **Team Lead** | [SHUBH] — [26ec111@charusat.edu.in] |
 | **Members** | [AMI], [JAINAM], [YASHVI] |
 
 ---
