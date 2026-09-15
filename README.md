@@ -15,11 +15,14 @@
 
 ---
 
-## 🎯 Problem Statement
+## 🎯 A smart classroom can still waste energy & miss risks
+
 
 > In 2–3 sentences: What problem does your project solve? Who experiences this problem?
 
-[Describe the real-world problem your project addresses. Be specific about who the user is and what pain point they face.]
+[⚡ Even smart classrooms waste energy when devices run unnecessarily.
+🛡 They often fail to detect abnormal power risks, causing damage and disruption.
+🌐 Without a guardian, safety and efficiency remain incomplete.]
 
 ---
 
@@ -27,17 +30,19 @@
 
 > In 2–3 sentences: What did you build? How does it solve the problem above?
 
-[Describe your solution clearly. Explain the core mechanism — what makes it work.]
+[⚡ The Smart Classroom Guardian monitors devices and prevents energy waste.
+🛡 It detects abnormal power risks instantly, protecting equipment and students.
+🌐 With AI intelligence, it ensures safe, efficient, and sustainable learning spaces.]
 
 ---
 
 ## ✨ Key Features
 
-- **Feature 1:** [Brief description — e.g., "Real-time anomaly detection using watsonx.ai"]
-- **Feature 2:** [Brief description]
-- **Feature 3:** [Brief description]
-- **Feature 4:** [Optional]
-- **Feature 5:** [Optional]
+- **Feature 1:** [ Real-time anomaly detection using AI sensors]
+- **Feature 2:** [Automatic Power Guard to cut abnormal supply instantly]
+- **Feature 3:** [Smart energy optimization to reduce wastage]
+- **Feature 4:** [Awareness Dashboard for live monitoring and alerts]
+- **Feature 5:** [Scalable integration with IoT & future AI modules]
 
 ---
 
