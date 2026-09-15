@@ -41,7 +41,7 @@ bob-ai-hackathon-H4X/
 │
 ├── demo/
 │   ├── demo-video-link.txt
-│   ├── live-demo-url.txt
+│   ├── 
 │   │
 │   └── screenshots/
 │       ├── 01-power-monitoring.png
