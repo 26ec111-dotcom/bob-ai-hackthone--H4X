@@ -111,11 +111,11 @@ cp .env.example .env
 
 ## ⚠️ Known Limitations
 
-> Be honest — judges appreciate transparency over overclaiming.
+> Be honest — “Clarity about limitations builds trust and highlights your commitment to real innovation.”
 
-- [Limitation 1: e.g., "Authentication is mocked — not production-ready"]
-- [Limitation 2: e.g., "Only tested on Chrome"]
-- [Limitation 3: e.g., "Feature X is scaffolded but not fully implemented"]
+- [Limitation 1: "Prototype tested only in simulated environments, not real classrooms"]
+- [Limitation 2: e.g., "Dashboard UI is basic and not fully production-ready"]
+- [Limitation 3: e.g., "Hardware integration (IoT sensors & Power Guard) is currently scaffolded, not fully implemented"]
 
 ---
 
