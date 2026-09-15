@@ -119,10 +119,9 @@ cp .env.example .env
 
 | Artifact | Link |
 |---|---|
-| 📹 Demo Video | [See demo/demo-video-link.txt](demo/demo-video-link.txt) |
-| 🌐 Live Demo | [See demo/live-demo-url.txt](demo/live-demo-url.txt) |
-| 🖼️ Screenshots | [See demo/screenshots/](demo/screenshots/) |
-| 📊 Presentation | [See presentation/slides.pdf](presentation/) |
+| 📹 Demo Video | [See demo/demo-video-link.txt](https://drive.google.com/file/d/1wjhsSyRJd1EQ1avSj-U7KB6RLRHZ6OzK/view?usp=drive_link) |
+| 🖼️ Screenshots | [See demo/screenshots/](https://drive.google.com/drive/folders/10dibEe4Q1zvLCdHTAenAqd_E-KdAFh27) |
+| 📊 Presentation | [See presentation/slides.pdf](https://1drv.ms/p/c/DBF192C9E208770F/IQBdpDEHtGOaT59RkPFQhszAAVKTVBHdNqEo6MY57nxOa-o) |
 
 ---
 
