@@ -1,4 +1,4 @@
-name: ✅ Validate Submission
+name: 🏆 AI Smart Classroom Guardian - Submission Validation
 
 on:
   push:
@@ -8,23 +8,26 @@ on:
 
 jobs:
   validate:
-    name: Submission Completeness Check
+    name: 🔍 Smart Classroom Guardian Submission Check
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: 📥 Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install yq (YAML parser)
+      - name: 🛠️ Install yq (YAML parser)
         run: |
           sudo wget -qO /usr/local/bin/yq \
             https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
           sudo chmod +x /usr/local/bin/yq
 
-      # ── 1. Required files exist ────────────────────────────────────────────
-      - name: Check required files exist
+      # ─────────────────────────────────────────────────────────────────────
+      # 1. Required project files
+      # ─────────────────────────────────────────────────────────────────────
+      - name: 📁 Check required project files
         run: |
           MISSING=()
+
           REQUIRED_FILES=(
             "README.md"
             "submission.yaml"
@@ -34,26 +37,41 @@ jobs:
             "docs/setup-guide.md"
             "demo/demo-video-link.txt"
           )
+
           for f in "${REQUIRED_FILES[@]}"; do
             if [ ! -f "$f" ]; then
               MISSING+=("❌ Missing: $f")
             fi
           done
+
           if [ ${#MISSING[@]} -gt 0 ]; then
-            echo "Submission validation FAILED — missing required files:"
+            echo ""
+            echo "🚨 AI SMART CLASSROOM GUARDIAN VALIDATION FAILED"
+            echo "The following required files are missing:"
+            echo ""
             printf '%s\n' "${MISSING[@]}"
+            echo ""
             exit 1
           fi
-          echo "✅ All required files present."
 
-      # ── 2. submission.yaml is valid YAML ──────────────────────────────────
-      - name: Validate submission.yaml is parseable
+          echo "✅ All required project files are present."
+
+      # ─────────────────────────────────────────────────────────────────────
+      # 2. Validate submission.yaml
+      # ─────────────────────────────────────────────────────────────────────
+      - name: 📋 Validate submission.yaml
         run: |
-          yq '.' submission.yaml > /dev/null
+          if ! yq '.' submission.yaml > /dev/null 2>&1; then
+            echo "❌ submission.yaml contains invalid YAML."
+            exit 1
+          fi
+
           echo "✅ submission.yaml is valid YAML."
 
-      # ── 3. Required fields are filled in ──────────────────────────────────
-      - name: Check required fields in submission.yaml
+      # ─────────────────────────────────────────────────────────────────────
+      # 3. Validate hackathon submission information
+      # ─────────────────────────────────────────────────────────────────────
+      - name: 🏆 Check hackathon submission details
         run: |
           ERRORS=()
 
@@ -61,79 +79,208 @@ jobs:
             local path="$1"
             local label="$2"
             local val
+
             val=$(yq "$path" submission.yaml 2>/dev/null)
-            if [ -z "$val" ] || [ "$val" = "null" ] || [ "$val" = '""' ] || [ "$val" = "" ]; then
-              ERRORS+=("❌ Required field missing or empty: $label ($path)")
+
+            if [ -z "$val" ] || [ "$val" = "null" ] || [ "$val" = '""' ]; then
+              ERRORS+=("❌ Missing or empty: $label")
             fi
           }
 
-          check_field '.team.name'              'team.name'
-          check_field '.team.track'             'team.track'
-          check_field '.team.lead.name'         'team.lead.name'
-          check_field '.team.lead.email'        'team.lead.email'
-          check_field '.submission.title'       'submission.title'
-          check_field '.submission.problem_statement' 'submission.problem_statement'
-          check_field '.submission.solution_summary'  'submission.solution_summary'
+          check_field '.team.name' "Team Name"
+          check_field '.team.track' "Hackathon Track"
+          check_field '.team.lead.name' "Team Lead Name"
+          check_field '.team.lead.email' "Team Lead Email"
 
-          # Check track is a valid value
+          check_field '.submission.title' "Project Title"
+          check_field '.submission.problem_statement' "Problem Statement"
+          check_field '.submission.solution_summary' "Solution Summary"
+
+          # ─────────────────────────────────────────────────────────────────
+          # Validate AI track
+          # ─────────────────────────────────────────────────────────────────
           TRACK=$(yq '.team.track' submission.yaml)
-          if [[ ! "$TRACK" =~ ^(AI|DevOps|Sustainability|Open)$ ]]; then
-            ERRORS+=("❌ team.track must be one of: AI | DevOps | Sustainability | Open (got: $TRACK)")
+
+          if [[ "$TRACK" != "AI" ]]; then
+            ERRORS+=(
+              "❌ This project is configured for the AI track. Current track: $TRACK"
+            )
           fi
 
-          # Check at least one key feature
-          FEATURES=$(yq '.submission.key_features | length' submission.yaml)
-          if [ "$FEATURES" -lt 1 ]; then
-            ERRORS+=("❌ submission.key_features must have at least 1 entry")
+          # ─────────────────────────────────────────────────────────────────
+          # Validate project title
+          # ─────────────────────────────────────────────────────────────────
+          TITLE=$(yq '.submission.title' submission.yaml)
+
+          if [[ "$TITLE" != *"Smart Classroom Guardian"* ]]; then
+            ERRORS+=(
+              "❌ Project title should identify the Smart Classroom Guardian solution."
+            )
+          fi
+
+          # ─────────────────────────────────────────────────────────────────
+          # Validate key features
+          # ─────────────────────────────────────────────────────────────────
+          FEATURES=$(yq '.submission.key_features | length' submission.yaml 2>/dev/null)
+
+          if ! [[ "$FEATURES" =~ ^[0-9]+$ ]] || [ "$FEATURES" -lt 1 ]; then
+            ERRORS+=(
+              "❌ submission.key_features must contain at least one feature."
+            )
           fi
 
           if [ ${#ERRORS[@]} -gt 0 ]; then
-            echo "Submission validation FAILED — incomplete fields in submission.yaml:"
+            echo ""
+            echo "🚨 SUBMISSION VALIDATION FAILED"
+            echo ""
+            printf '%s\n' "${ERRORS[@]}"
+            echo ""
+            exit 1
+          fi
+
+          echo "✅ Team information is complete."
+          echo "✅ AI track is correctly selected."
+          echo "✅ Smart Classroom Guardian project information is present."
+          echo "✅ Key features are defined."
+
+      # ─────────────────────────────────────────────────────────────────────
+      # 4. Check source code
+      # ─────────────────────────────────────────────────────────────────────
+      - name: 💻 Check project source code
+        run: |
+          if [ ! -d "src" ]; then
+            echo "❌ src/ directory does not exist."
+            echo "Add your AI Smart Classroom Guardian source code inside src/."
+            exit 1
+          fi
+
+          CODE_FILES=$(find src/ -type f \
+            ! -name "README.md" \
+            ! -name ".env.example" | wc -l)
+
+          if [ "$CODE_FILES" -lt 1 ]; then
+            echo "❌ No source code found inside src/."
+            echo "Add your actual project code."
+            exit 1
+          fi
+
+          echo "✅ Source code check passed."
+          echo "📦 Source files found: $CODE_FILES"
+
+      # ─────────────────────────────────────────────────────────────────────
+      # 5. Check demo video
+      # ─────────────────────────────────────────────────────────────────────
+      - name: 🎥 Check project demo video
+        run: |
+          VIDEO_FILE="demo/demo-video-link.txt"
+
+          if [ ! -s "$VIDEO_FILE" ]; then
+            echo "❌ Demo video link file is empty."
+            echo "Add your real demo video link to:"
+            echo "demo/demo-video-link.txt"
+            exit 1
+          fi
+
+          VIDEO_LINK=$(head -1 "$VIDEO_FILE" | tr -d '\r')
+
+          if [[ "$VIDEO_LINK" == *"your-demo-video-link-here"* ]]; then
+            echo "❌ Demo video link is still a placeholder."
+            echo "Replace it with your actual demo video link."
+            exit 1
+          fi
+
+          if [[ ! "$VIDEO_LINK" =~ ^https?:// ]]; then
+            echo "❌ Demo video link must start with http:// or https://"
+            exit 1
+          fi
+
+          echo "✅ Demo video link is present."
+          echo "🎥 $VIDEO_LINK"
+
+      # ─────────────────────────────────────────────────────────────────────
+      # 6. Check README
+      # ─────────────────────────────────────────────────────────────────────
+      - name: 📖 Check README
+        run: |
+          ERRORS=()
+
+          if grep -q "\[Your Project Title Here\]" README.md; then
+            ERRORS+=("❌ README still contains '[Your Project Title Here]'")
+          fi
+
+          if grep -q "\[Your Team Name\]" README.md; then
+            ERRORS+=("❌ README still contains '[Your Team Name]'")
+          fi
+
+          if grep -q "\[YOUR TEAM NAME\]" README.md; then
+            ERRORS+=("❌ README still contains '[YOUR TEAM NAME]'")
+          fi
+
+          if grep -q "\[Your Name\]" README.md; then
+            ERRORS+=("❌ README still contains '[Your Name]'")
+          fi
+
+          if [ ${#ERRORS[@]} -gt 0 ]; then
+            echo ""
+            echo "🚨 README VALIDATION FAILED"
             printf '%s\n' "${ERRORS[@]}"
             exit 1
           fi
-          echo "✅ All required submission.yaml fields are filled."
 
-      # ── 4. src/ has actual code (not just README) ─────────────────────────
-      - name: Check src/ is not empty
-        run: |
-          CODE_FILES=$(find src/ -type f ! -name "README.md" ! -name ".env.example" | wc -l)
-          if [ "$CODE_FILES" -lt 1 ]; then
-            echo "❌ src/ contains no source code files. Add your project code to src/."
-            exit 1
-          fi
-          echo "✅ src/ contains $CODE_FILES source file(s)."
+          echo "✅ README placeholder check passed."
 
-      # ── 5. Demo video link is not the placeholder ──────────────────────────
-      - name: Check demo video link is updated
+      # ─────────────────────────────────────────────────────────────────────
+      # 7. Check documentation
+      # ─────────────────────────────────────────────────────────────────────
+      - name: 📚 Check project documentation
         run: |
-          VIDEO_LINK=$(head -1 demo/demo-video-link.txt)
-          if [[ "$VIDEO_LINK" == *"your-demo-video-link-here"* ]]; then
-            echo "❌ demo/demo-video-link.txt still contains the placeholder URL. Update it with your real video link."
-            exit 1
-          fi
-          echo "✅ Demo video link looks real: $VIDEO_LINK"
+          DOCS=(
+            "docs/problem-statement.md"
+            "docs/solution-overview.md"
+            "docs/architecture.md"
+            "docs/setup-guide.md"
+          )
 
-      # ── 6. README placeholders are replaced ───────────────────────────────
-      - name: Check README placeholders are replaced
-        run: |
-          if grep -q "\[Your Project Title Here\]" README.md; then
-            echo "❌ README.md still contains placeholder text. Update it with your project details."
-            exit 1
-          fi
-          if grep -q "\[Your Team Name\]" README.md; then
-            echo "❌ README.md still contains '[Your Team Name]' placeholder."
-            exit 1
-          fi
-          echo "✅ README.md placeholders appear to be replaced."
+          for doc in "${DOCS[@]}"; do
+            if [ ! -s "$doc" ]; then
+              echo "❌ Documentation file is empty: $doc"
+              exit 1
+            fi
+          done
 
-      # ── Summary ───────────────────────────────────────────────────────────
-      - name: Validation passed
+          echo "✅ All Smart Classroom Guardian documentation is present."
+
+      # ─────────────────────────────────────────────────────────────────────
+      # 8. Final submission summary
+      # ─────────────────────────────────────────────────────────────────────
+      - name: 🎉 Validation passed
         run: |
+          TEAM=$(yq '.team.name' submission.yaml)
+          TITLE=$(yq '.submission.title' submission.yaml)
+          TRACK=$(yq '.team.track' submission.yaml)
+          LEAD=$(yq '.team.lead.name' submission.yaml)
+          FEATURES=$(yq '.submission.key_features | length' submission.yaml)
+
           echo ""
-          echo "🎉 Submission validation passed!"
-          echo "Your repository meets all structural requirements."
+          echo "══════════════════════════════════════════════════════════"
+          echo "       🏆 AI SMART CLASSROOM GUARDIAN"
+          echo "       HACKATHON SUBMISSION VALIDATION"
+          echo "══════════════════════════════════════════════════════════"
           echo ""
-          echo "Team:  $(yq '.team.name' submission.yaml)"
-          echo "Title: $(yq '.submission.title' submission.yaml)"
-          echo "Track: $(yq '.team.track' submission.yaml)"
+          echo "✅ Submission validation PASSED!"
+          echo ""
+          echo "👥 Team:          $TEAM"
+          echo "👤 Team Lead:     $LEAD"
+          echo "🤖 Track:         $TRACK"
+          echo "💡 Project:       $TITLE"
+          echo "⭐ Key Features:  $FEATURES"
+          echo ""
+          echo "📁 Required files:      ✅"
+          echo "📋 Submission YAML:     ✅"
+          echo "💻 Source code:         ✅"
+          echo "📚 Documentation:       ✅"
+          echo "🎥 Demo video link:     ✅"
+          echo "📖 README:              ✅"
+          echo ""
+          echo "🚀 AI Smart Classroom Guardian is ready for submission!"
+          echo "══════════════════════════════════════════════════════════"
