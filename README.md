@@ -60,19 +60,36 @@
 
 ## 📁 Repository Structure
 
-```
-├── src/                  # All source code
-├── docs/                 # Written documentation
+```text
+AI-Smart-Classroom-Guardian/
+│
+├── .github/
+│   └── workflows/
+│       └── validate.yml
+│
+├── src/
+│   ├── frontend/
+│   ├── backend/
+│   ├── ai/
+│   ├── automation/
+│   └── sensors/
+│
+├── docs/
 │   ├── problem-statement.md
 │   ├── solution-overview.md
 │   ├── architecture.md
 │   └── setup-guide.md
-├── demo/                 # Demo artifacts
-│   ├── screenshots/      # App screenshots
-│   └── demo-video-link.txt  # Link to demo video
-├── presentation/         # Slide deck
-└── submission.yaml       # Structured submission metadata
-```
+│
+├── demo/
+│   ├── screenshots/
+│   └── demo-video-link.txt
+│
+├── presentation/
+│   └── AI-Smart-Classroom-Guardian.pptx
+│
+├── submission.yaml
+├── README.md
+└── .gitignore
 
 ---
 
