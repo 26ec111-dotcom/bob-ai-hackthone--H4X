@@ -121,6 +121,8 @@ cp .env.example .env
 
 ## 🏅 What We're Most Proud Of
 
-[Tell the judges what part of your submission is strongest and worth paying close attention to.]
+[We’re most proud that Smart Classroom Guardian goes beyond theory — it’s a working prototype that detects abnormal power conditions and acts instantly to protect devices and ensure safety. Unlike typical smart systems that only monitor, Guardian combines real-time anomaly detection, automatic power cut-off, and an intuitive dashboard to make classrooms both intelligent and secure.
+
+This achievement shows our ability to blend innovation with practicality — delivering a solution that saves energy, prevents hazards, and is scalable for real-world classrooms.]
 
 ---
