@@ -1,5 +1,6 @@
 blank_issues_enabled: false
+
 contact_links:
   - name: 🙋 Hackathon Help & Questions
-    url: https://github.com/your-org/hackathon-submission-template/discussions
-    about: Ask questions about the submission template or hackathon rules here.
+    url: https://github.com/shubhpatel/AI-Smart-Classroom-Guardian/discussions
+    about: Ask questions, report submission-related concerns, or discuss the AI Smart Classroom Guardian project and hackathon requirements.
